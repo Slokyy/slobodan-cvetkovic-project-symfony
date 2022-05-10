@@ -3,8 +3,10 @@
 {% block title %}Hello DashboardController!{% endblock %}
 
 {% block body %}
-<div>
+  <div>
     <h1>Hello {{ app.user.email }}! 🍔🍕</h1>
     <a href="{{ path('dashboard_logout') }}">Logout</a>
-</div>
+
+    {% include('components/register.html.twig') %}
+  </div>
 {% endblock %}
