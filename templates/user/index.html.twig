@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at <code><a href="{{ 'C:/wamp/www/infostud-obuka-projekti/backend/symfony/zadaci/slobodan-cvetkovic-project-symfony/src/Controller/UserController.php'|file_link(0) }}">src/Controller/UserController.php</a></code></li>
+        <li>Your template at <code><a href="{{ 'C:/wamp/www/infostud-obuka-projekti/backend/symfony/zadaci/slobodan-cvetkovic-project-symfony/templates/user/index.html.twig'|file_link(0) }}">templates/user/index.html.twig</a></code></li>
+    </ul>
+
+    <div id="test">
+
+    </div>
+</div>
+    <script src="{{ asset('js/monkey.js') }}" defer></script>
+
+{% endblock %}
