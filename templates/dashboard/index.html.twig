@@ -1,12 +1,78 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DashboardController!{% endblock %}
+{% block title %}Users{% endblock %}
 
 {% block body %}
-  <div>
-    <h1>Hello {{ app.user.email }}! 🍔🍕</h1>
-    <a href="{{ path('dashboard_logout') }}">Logout</a>
+  <div class="dashboard container grid">
+    {% include('components/navigation.html.twig') %}
+    <main class="main-container">
+      <div class="overlay"></div>
 
-    {% include('components/register.html.twig') %}
+      {% include('components/register.html.twig') %}
+
+      <section class="user-section">
+        <div class="section-header user-section-header flex">
+          <label class="search-group flex flex-center"
+                 for="user-table-search">
+            <span class="icon icon-sm icon-search"></span>
+            <input type="text" name="user-table-search" id="table-search"
+                   class="user-table-search" placeholder="Search">
+          </label>
+
+          <button class="btn btn-small btn-blue add-user" id="add-user">Add
+            user
+          </button>
+        </div>
+        <div class="user-section-table">
+          <table class="table big-table" id="table" cellspacing="1">
+            <thead>
+              <tr class="sticky">
+                <th>Avatar</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>City</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Email</th>
+                <th>Options</th>
+              </tr>
+            </thead>
+            <tbody id="index-body">
+              {% if users %}
+                {% for user in users %}
+                  <tr>
+                    <td>{{ user.avatarpath }}</td>
+                    <td>{{ user.firstname }}</td>
+                    <td>{{ user.lastname }}</td>
+                    <td>{{ user.city }}</td>
+                    {% if user.roles[0] == "ROLE_USER" %}
+                      <td>User noob</td>
+                    {% else %}
+                      <td>{{ user.roles[0] != "ROLE_DEVELOPER" ? 'Administrator' : "Developer" }}</td>
+                    {% endif %}
+                    <td>{{ user.status | capitalize }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                      <a href="#">
+                        <span class="icon icon-sm icon-edit"></span>
+                      </a>
+                      <a href="#">
+                        <span class="icon icon-sm icon-eye-hollow"></span>
+                      </a>
+                      <span class="icon icon-sm icon-trash"></span>
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                  No user data
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
   </div>
+
 {% endblock %}

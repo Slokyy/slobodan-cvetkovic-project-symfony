@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block body %}
+  {% include('components/navigation.html.twig') %}
+  <div>
+    <h1>Hello {{ app.user.email }}! 🍔🍕</h1>
+    <a href="{{ path('dashboard_logout') }}">Logout</a>
+
+    <h2>My Profile</h2>
+  </div>
+{% endblock %}

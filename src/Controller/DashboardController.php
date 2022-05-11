@@ -14,11 +14,15 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/$2a$12$99iZHSovZPM6xvwAMeFeoONS69pt45Udgplt4DAdT7fDQvX12nBte', name: 'dashboard_')]
 class DashboardController extends AbstractController
 {
-    #[Route('/', name: 'index')]
+    #[Route('/admin/users', name: 'index')]
     public function index(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
       if(!$this->isGranted('ROLE_ADMIN'))
-        return $this->redirectToRoute('dashboard_logout');
+        if(!$this->isGranted('ROLE_DEVELOPER')) {
+          return $this->redirectToRoute('dashboard_logout');
+        } else {
+          return $this->redirectToRoute('dashboard_my_profile');
+        }
 
 
       unset($user);
@@ -42,9 +46,31 @@ class DashboardController extends AbstractController
         return $this->redirectToRoute('dashboard_index');
       }
 
+      $userRepository = $entityManager->getRepository(User::class);
+      $users = $userRepository->findAll();
+
 
       return $this->render('dashboard/index.html.twig', [
-        'registrationForm' =>  $form->createView()
+        'registrationForm' =>  $form->createView(),
+        'users' => $users
       ]);
     }
+
+    #[Route('/admin/clients', name: 'clients')]
+    public function clients(): Response
+    {
+      if(!$this->isGranted('ROLE_ADMIN'))
+        if(!$this->isGranted('ROLE_DEVELOPER')) {
+          return $this->redirectToRoute('dashboard_logout');
+        } else {
+          return $this->redirectToRoute('dashboard_my_profile');
+        }
+      return $this->render('dashboard/clients.html.twig');
+    }
+
+  #[Route('/dashboard/my-profile', name: 'my_profile')]
+  public function myProfile(): Response
+  {
+    return $this->render('dashboard/my-profile.html.twig');
+  }
 }

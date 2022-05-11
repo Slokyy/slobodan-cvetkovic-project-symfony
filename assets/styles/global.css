@@ -1,0 +1,500 @@
+
+
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: gray #c5c5c5;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #c5c5c5;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 20px;
+  border: 3px solid gray;
+}
+
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+:root {
+  --primary-white: #f2f2f2;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+  box-sizing: border-box;
+  background-color: var(--primary-white);
+  position: relative;
+  font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.rounded-50 {
+  border-radius: 50%;
+}
+
+.rounded-20px {
+  border-radius: 20px;
+}
+
+.flex {
+  display: flex;
+}
+
+.grid {
+  display: grid;
+}
+
+.flex-center {
+  align-items: center;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+input {
+  outline: none;
+}
+
+.icon {
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 30px;
+  width: 30px;
+  height: 30px;
+}
+
+.icon-md {
+  background-size: 25px;
+  height: 25px;
+  width: 25px;
+}
+
+.icon-sm {
+  background-size: 18px;
+  height: 18px;
+  width: 18px;
+}
+
+.rounded-50 {
+  border-radius: 50%;
+}
+
+.mb-30 {
+  margin-bottom: 30px;
+}
+
+.icon-p-15 {
+  padding: 15px;
+}
+
+/* Wide extra small icon */
+.icon-w-xsm {
+  background-size: 22px;
+  width: 22px;
+  height: 16px;
+}
+
+.icon-xsm {
+  background-size: 15px;
+  height: 15px;
+  width: 15px;
+}
+
+/* Icons used in login and forgot password, might need to be globalized properly */
+
+.icon-eye {
+  background-image: url("../images/icons/eye2.svg");
+}
+
+.icon-eye-slash {
+  background-image: url("../images/icons/eye-slash.svg");
+  width: 22px;
+  height: 16px;
+}
+
+.icon-search {
+  background-image: url("../images/icons/search-icon.svg");
+}
+
+.icon-eye-hollow {
+  background-image: url("../images/icons/eye.svg");
+}
+
+.icon-trash {
+  background-image: url("../images/icons/trash-2.svg");
+}
+
+.icon-trash-big {
+  background-image: url("../images/icons/trash.svg");
+  background-size: 20px 17px;
+  height: 20px;
+  width: 17px;
+}
+
+.icon-edit {
+  background-image: url("../images/icons/edit-3.svg");
+}
+
+.icon-clock {
+  background-image: url("../images/icons/clock.svg");
+}
+
+.icon-cash {
+  background-image: url("../images/icons/cash.svg");
+}
+
+.icon-dots {
+  background-image: url("../images/icons/dots.svg");
+}
+
+.icon-ex {
+  background-image: url("../images/icons/x-icon.svg");
+}
+
+/* SIDEBAR */
+
+.sidebar {
+  width: 200px;
+  height: 100vh;
+  background: linear-gradient(180deg, #3372ed 0%, #1138c2 100%);
+  box-shadow: 2px 0px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 0px 0px 20px 0px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  padding-top: 40px;
+}
+
+.sidebar-logo {
+  display: block;
+  margin: 0 auto;
+
+  width: 100px;
+  height: 59px;
+  margin-bottom: 65px;
+}
+
+.hamburger {
+  display: none;
+}
+
+.bar {
+  display: block;
+  width: 30px;
+  height: 3px;
+  margin: 3px auto;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  background-color: #fff;
+}
+
+.active .bar1 {
+  --webkit-transform: rotate(-45deg) translate(-6px, 7px);
+  transform: rotate(-45deg) translate(-6px, 7px);
+}
+
+.active .bar2 {
+  opacity: 0;
+}
+
+.active .bar3 {
+  --webkit-transform: rotate(45deg) translate(-9px, -5px);
+  transform: rotate(45deg) translate(-6px, -6px);
+}
+
+.sidebar ul {
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar .aside-item {
+  align-items: center;
+  padding: 0;
+  height: 40px;
+  margin: 3px 0;
+}
+
+.sidebar .aside-item:hover::before,
+.sidebar .aside-item.active::before {
+  content: "";
+  position: absolute;
+  width: 5px;
+  height: 40px;
+  background: #ffffff;
+  border-radius: 0px 5px 5px 0px;
+}
+
+.sidebar .aside-item:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.sidebar .aside-item a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding-left: 60px;
+  line-height: 40px;
+}
+
+/* MAIN container */
+
+.main-container {
+  margin: 30px;
+  box-shadow: 0 0 10px 4px rgb(223, 215, 215);
+  border-radius: 20px;
+  max-height: calc(100vh - 60px);
+  overflow-y: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+ul li a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.btn {
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-small {
+  width: 200px;
+  height: 40px;
+}
+
+.btn-small-w {
+  width: 240px;
+  height: 40px;
+}
+
+.btn-blue {
+  background: linear-gradient(180deg, #3372ed 0%, #1138c2 100%);
+  color: #fff;
+}
+
+.btn-blue:hover {
+  background: linear-gradient(180deg, #3372ed 0%, #0f2ea1 100%);
+}
+
+.btn-blue:active {
+  background: #0f2ea1;
+}
+
+.btn-blue-hollow {
+  background-color: #fff;
+  color: #1138c2;
+  border: 1px solid #1138c2;
+}
+
+.btn-blue-hollow:hover {
+  color: #001769;
+  border: 1px solid #001769;
+  box-shadow: 0 0 10px 2px rgb(223, 215, 215);
+}
+
+.btn-blue-hollow:active {
+  color: #001769;
+  border: 1px solid #0d1f61;
+}
+
+.bold-14 {
+  font-weight: 700;
+}
+
+.modal {
+  position: fixed;
+  z-index: 6;
+  display: none;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%);
+  padding: 30px;
+  justify-content: center;
+  align-self: center;
+  background-color: #fff;
+}
+
+.modal.active {
+  display: flex;
+}
+
+/* ============================================ */
+/* ============== MEDIA QUERIES =============== */
+/* ============================================ */
+
+@media only screen and (max-width: 1440px) {
+}
+
+@media only screen and (max-width: 1200px) {
+  .sidebar {
+    position: fixed;
+    height: 11vh;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    width: 100vw;
+    z-index: 3;
+    top: 0;
+  }
+
+  .sidebar > a {
+    align-self: center;
+  }
+
+  .sidebar-logo {
+    margin-bottom: unset;
+    /* padding: 10px; */
+  }
+
+  .sidebar ul {
+    display: flex;
+  }
+
+  .sidebar .aside-item {
+    position: relative;
+    margin: 0 5px;
+    height: unset;
+  }
+
+  .sidebar .aside-item a {
+    padding-left: unset;
+    padding: 5px 10px;
+  }
+
+  .sidebar .aside-item:hover::before,
+  .sidebar .aside-item.active::before {
+    width: 100%;
+    height: 4px;
+    border-radius: 5px 5px 0px 0px;
+    bottom: 0;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+}
+
+@media only screen and (max-width: 768px) {
+}
+
+@media only screen and (max-width: 680px) {
+}
+
+@media only screen and (max-width: 576px) {
+  .sidebar {
+    top: unset;
+    bottom: 0;
+    border-radius: 0;
+  }
+
+  .nav {
+    position: fixed;
+    top: 150%;
+    background: linear-gradient(180deg, #1138c2 0%, #3372ed 100%);
+    left: 0;
+    transition: top 0.5s ease-in;
+  }
+
+  .nav.active {
+    top: 0;
+  }
+
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    border: 2px solid #fff;
+    padding: 5px;
+    align-self: center;
+  }
+
+  .sidebar ul {
+    flex-direction: column;
+    height: 89vh;
+    width: 100vw;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .sidebar .aside-item {
+    margin: 3px 0px;
+    width: 90%;
+    padding: 10px;
+  }
+
+  .sidebar .aside-item:hover::before,
+  .sidebar .aside-item.active::before {
+    width: 96%;
+  }
+
+  .sidebar .aside-item a {
+    text-align: center;
+  }
+
+  /* Top of table padding */
+
+  .section-header,
+  .user-section-header,
+  .clients-section-header {
+    padding: 30px 15px;
+    justify-content: space-between;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+}
+
+@media only screen and (max-width: 400px) {
+}
+
+@media only screen and (max-width: 320px) {
+  .sidebar .aside-item:hover::before,
+  .sidebar .aside-item.active::before {
+    width: 93%;
+  }
+}
