@@ -166,7 +166,9 @@ body {
     position: fixed;
     z-index: 5;
     top: 0;
-    right: -480px;
+    /*right: -480px;*/
+    right: 0px;
+
     width: 480px;
     height: 100vh;
     background: #ffffff;
@@ -199,6 +201,10 @@ body {
     overflow-x: hidden;
     scrollbar-width: none;
     scrollbar-color: transparent;
+}
+
+.slide-form .form-group {
+    height: 33px;
 }
 
 .slide-form::-webkit-scrollbar {
@@ -239,6 +245,7 @@ body {
 
 .slide-form input[type="text"],
 .slide-form input[type="password"],
+.slide-form select,
 .slide-form textarea {
     width: 100%;
 }
@@ -300,10 +307,12 @@ body {
 }
 
 .slide-container .form-group input:not(input[type="file"]),
+.slide-container .form-group select,
 .slide-container .form-group textarea#client-invoice {
     padding: 6px 20px;
     font-size: 14px;
     border-radius: 4px;
+    background: transparent;
     border: 1px solid #a2a2a2;
 }
 
@@ -332,6 +341,7 @@ body {
 .slide-container .form-group:first-of-type label:hover,
 .slide-container .form-group input[type="text"]:hover,
 .slide-container .form-group input[type="password"]:hover,
+.slide-container .form-group select,
 .slide-container .form-group textarea:hover,
 .shadow-me:hover {
     box-shadow: 0 0 10px 2px rgb(223, 215, 215);
@@ -339,6 +349,8 @@ body {
 
 .slide-container .form-group input[type="text"],
 .slide-container .form-group input[type="password"],
+.slide-container .form-group select,
+
 .slide-container .form-group textarea {
     color: #a2a2a2;
 }

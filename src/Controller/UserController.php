@@ -16,9 +16,4 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/test', name: "test")]
-    public function test(): Response
-    {
-      return new Response("Hello successfully used path in js");
-    }
 }

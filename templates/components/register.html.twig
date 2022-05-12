@@ -1,26 +1,71 @@
+<section class="slide-container new-user-container" id="new-user-container">
+    <span class="icon icon-md icon-ex  js-btn-close slide-ex"></span>
+    {{ form_start(registrationForm, { 'attr': {'class': 'slide-form flex'}}) }}
+    <h2>New User</h2>
 
-<div>
-    <h2>Register</h2>
+    <div class="form-group">
+        {{ form_row(registrationForm.avatar_path, { 'attr': {'class': 'slide-form flex'}}) }}
+    </div>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.first_name) }}
-        {{ form_row(registrationForm.last_name) }}
-        {{ form_row(registrationForm.street) }}
-        {{ form_row(registrationForm.city) }}
-        {{ form_row(registrationForm.country) }}
+    <div class="form-group">
 
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.roles) }}
-        {{ form_row(registrationForm.status) }}
-        {{ form_row(registrationForm.bank_acc) }}
-        {{ form_row(registrationForm.avatar_path) }}
+        {{ form_widget(registrationForm.first_name) }}
+        {{ form_label(registrationForm.first_name) }}
+    </div>
+    <div class="form-group">
 
+        {{ form_widget(registrationForm.last_name) }}
+        {{ form_label(registrationForm.last_name) }}
+    </div>
+    <div class="form-group">
 
+        {{ form_widget(registrationForm.street) }}
+        {{ form_label(registrationForm.street) }}
+    </div>
+    <div class="form-group">
 
-        <button type="submit" class="btn">Register</button>
+        {{ form_widget(registrationForm.city) }}
+        {{ form_label(registrationForm.city) }}
+    </div>
+    <div class="form-group">
+
+        {{ form_widget(registrationForm.country) }}
+        {{ form_label(registrationForm.country) }}
+    </div>
+    <div class="form-group">
+
+        {{ form_widget(registrationForm.email) }}
+        {{ form_label(registrationForm.email) }}
+    </div>
+    <div class="form-group">
+
+        {{ form_widget(registrationForm.plainPassword) }}
+        {{ form_label(registrationForm.plainPassword) }}
+
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(registrationForm.roles) }}
+        {{ form_label(registrationForm.roles) }}
+
+    </div>
+    <div class="form-group">
+
+        {{ form_widget(registrationForm.status) }}
+        {{ form_label(registrationForm.status) }}
+
+    </div>
+    <div class="form-group">
+
+        {{ form_widget(registrationForm.bank_acc) }}
+        {{ form_label(registrationForm.bank_acc) }}
+
+    </div>
+
+    <div class="form-group input flex">
+        <button class="btn js-btn-close">Cancel</button>
+        <button type="submit" class="btn btn-small btn-blue">Register</button>
+    </div>
+
     {{ form_end(registrationForm) }}
-
-</div>
+</section>

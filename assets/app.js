@@ -12,6 +12,7 @@ import './styles/login.css'
 import './styles/app.css';
 
 import './js/login';
+import './js/toggle.class';
 
 // start the Stimulus application
 import './bootstrap';
