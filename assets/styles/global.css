@@ -360,6 +360,10 @@ ul li a {
   background-color: #fff;
 }
 
+.toggle-modal {
+  cursor: pointer;
+}
+
 .modal.active {
   display: flex;
 }

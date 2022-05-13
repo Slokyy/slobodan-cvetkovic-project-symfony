@@ -16,6 +16,7 @@ body {
 }
 
 .search-group {
+    position: relative;
     gap: 20px;
     padding-bottom: 3px;
     border-bottom: 1px solid transparent;
@@ -25,6 +26,20 @@ body {
 .search-group:focus-within,
 .search-group:active {
     border-bottom: 1px solid #cfcfcf;
+}
+
+.search-group a span.icon-search {
+    transition: right 0.2s ease-in;
+    place-self: center;
+
+    right: 105%;
+    position: absolute;
+}
+
+.search-group:focus-within a span.icon-search,
+.search-group:active a span.icon-search {
+    transition: right 0.2s ease-in ;
+    right: -20px;
 }
 
 .search-group input[type="text"] {
@@ -160,14 +175,18 @@ body {
     /* cursor: pointer; */
 }
 
+.overlay.active {
+    display: block;
+}
+
 /* Slide container */
 
 .slide-container {
     position: fixed;
     z-index: 5;
     top: 0;
-    /*right: -480px;*/
-    right: 0px;
+    right: -480px;
+    /*right: 0px;*/
 
     width: 480px;
     height: 100vh;
