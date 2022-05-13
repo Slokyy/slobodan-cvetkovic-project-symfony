@@ -3,6 +3,7 @@
   namespace App\Controller;
 
   use App\Entity\User;
+  use App\Form\EditUserType;
   use App\Form\RegistrationFormType;
   use Doctrine\ORM\EntityManagerInterface;
   use Doctrine\Persistence\ManagerRegistry;
@@ -64,8 +65,8 @@
       ]);
     }
 
-    #[Route('/admin/users/{id}', name: 'admin_view_user')]
-    public function viewUser($id, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    #[Route('/admin/users/{id}', name: 'admin_view_user', methods: ['GET', 'POST'])]
+    public function viewUser($id, Request $request): Response
     {
       if (!$this->isGranted('ROLE_ADMIN')) {
         if (!$this->isGranted('ROLE_DEVELOPER')) {
@@ -80,9 +81,30 @@
       $userRepository = $this->_em->getRepository(User::class);
       $user = $userRepository->find($id);
 
+      $editForm = $this->createForm(EditUserType::class, $user, [
+        'action' => $this->generateUrl('dashboard_admin_view_user', ['id' => $id])
+      ]);
 
-      return $this->render('dashboard/my-profile.html.twig', [
-        'user' => $user
+//      dd($request->request->get("_method") );
+
+      $editForm->handleRequest($request);
+//      dd($editForm);
+
+      if($editForm->isSubmitted() && $editForm->isValid()/* && $request->request->get("_method") == "PUT"*/)
+      {
+        $editedUser = $editForm->getData();
+
+//        dd($editedUser);
+//        dd($editedUser, $userRepository);
+        $userRepository->add($editedUser, true);
+
+        return $this->redirectToRoute('dashboard_admin_view_user', ['id' => $id]);
+      }
+
+
+      return $this->render('dashboard/user-profile.html.twig', [
+        'user' => $user,
+        'editForm' => $editForm->createView()
       ]);
     }
 
