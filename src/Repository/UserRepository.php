@@ -10,6 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -63,6 +64,48 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->persist($user);
         $this->_em->flush();
     }
+
+    public function getSearchedUsers($searchData)
+    {
+      $queryBuild = $this->createQueryBuilder('u');
+
+      return $queryBuild->select()
+        ->where($queryBuild->expr()->like('u.first_name', ':searchData'))
+        ->orWhere($queryBuild->expr()->like('u.last_name', ':searchData'))
+        ->orWhere($queryBuild->expr()->like('u.city', ':searchData'))
+        ->orWhere($queryBuild->expr()->like('u.street', ':searchData'))
+        ->orWhere($queryBuild->expr()->like('u.email', ':searchData'))
+        ->orWhere($queryBuild->expr()->like('u.country', ':searchData'))
+        // https://stackoverflow.com/questions/67725384/symfony-find-user-by-role-json-array-doctrine-property
+        ->orWhere("JSON_CONTAINS(u.roles, :searchData, :jsonPath)")
+        ->setParameter('jsonPath', '$[]')
+        ->setParameter('searchData', $searchData)
+        ->getQuery()
+        ->getResult();
+    }
+
+  public function getSearchedUsersQuery($searchData)
+  {
+    $entityManager = $this->getEntityManager();
+
+    $query = $entityManager->createQuery(
+      'SELECT u 
+       FROM App\Entity\User u
+       WHERE u.first_name = :searchData
+       OR u.last_name = :searchData
+       OR u.city = :searchData
+       OR u.street = :searchData
+       OR u.email = :searchData
+       OR u.country = :searchData
+       OR JSON_EXTRACT(u.roles, :jsonPath) = :searchData
+       OR u.status = UPPER(:searchData)'
+    )->setParameter('searchData', $searchData)
+    ->setParameter('jsonPath', '$[0]');
+
+
+    return $query->getResult();
+  }
+
 
 //    /**
 //     * @return User[] Returns an array of User objects

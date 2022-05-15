@@ -1,0 +1,43 @@
+<section class="slide-container new-user-container" id="new-user-container" data-toggleselector="clientSlider">
+  {% set route = app.request.get('_route') %}
+
+  <span class="icon icon-md icon-ex slide-ex" data-toggle-close></span>
+  {{ form_start(clientForm, { 'attr': {'class': 'slide-form flex'}}) }}
+  <h2>New Client</h2>
+
+  <div class="form-group">
+    {{ form_row(clientForm.avatar_path, { 'attr': {'class': 'slide-form flex'}}) }}
+  </div>
+
+  <div class="form-group">
+
+    {{ form_widget(clientForm.name) }}
+    {{ form_label(clientForm.name) }}
+  </div>
+  <div class="form-group">
+
+    {{ form_widget(clientForm.email) }}
+    {{ form_label(clientForm.email) }}
+  </div>
+
+  <div class="form-group">
+
+    {{ form_widget(clientForm.payment_method) }}
+    {{ form_label(clientForm.payment_method) }}
+
+  </div>
+
+  <div class="form-group">
+
+    {{ form_widget(clientForm.bank_acc) }}
+    {{ form_label(clientForm.bank_acc) }}
+
+  </div>
+
+  <div class="form-group input flex">
+    <button class="btn" data-toggle-close>Cancel</button>
+    <button type="submit" class="btn btn-small btn-blue">{{ 'dashboard_admin_clients' in route ? 'Add Client' : 'Edit Client' }}</button>
+  </div>
+
+  {{ form_end(clientForm) }}
+</section>

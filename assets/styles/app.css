@@ -28,16 +28,19 @@ body {
     border-bottom: 1px solid #cfcfcf;
 }
 
-.search-group a span.icon-search {
+.search-group button.search-btn {
+    background: transparent;
+}
+
+.search-group button.search-btn span.icon-search {
     transition: right 0.2s ease-in;
     place-self: center;
-
     right: 105%;
     position: absolute;
 }
 
-.search-group:focus-within a span.icon-search,
-.search-group:active a span.icon-search {
+.search-group:focus-within button.search-btn span.icon-search,
+.search-group:active button.search-btn span.icon-search {
     transition: right 0.2s ease-in ;
     right: -20px;
 }

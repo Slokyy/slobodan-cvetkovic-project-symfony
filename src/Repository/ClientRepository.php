@@ -47,6 +47,24 @@ class ClientRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllByDateOrder($clientId, $order = 'ASC')
+    {
+      $entityManager = $this->getEntityManager();
+
+      $query = $entityManager->createQuery(
+        'SELECT * FROM App\Entity\Client c
+          LEFT JOIN App\Entity\Task t
+          ON c.id = t.client_id
+          LEFT JOIN App\Entity\User u
+          ON u.id = t.user_id
+          WHERE c.id = :clientId
+          ORDER BY t.month :order'
+      )->setParameter('clientId', $clientId)
+        ->setParameter('order', $order);
+
+      return $query->getResult();
+    }
+
 //    /**
 //     * @return Client[] Returns an array of Client objects
 //     */

@@ -12,14 +12,16 @@
 
       <section class="user-section">
         <div class="section-header user-section-header flex">
-          <label class="search-group flex flex-center"
-                 for="user-table-search">
-            <a href="#" class="btn flex toggleTest">
-              <span class="icon icon-sm icon-search"></span>
-            </a>
-            <input type="text" name="user-table-search" id="table-search"
-                   class="user-table-search" placeholder="Search">
-          </label>
+          <form action="{{ path('dashboard_index') }}" method="GET" class="flex flex-center">
+            <label class="search-group flex flex-center"
+                   for="user-table-search">
+              <button type="submit" class="btn flex search-btn" name="submitSearch">
+                <span class="icon icon-sm icon-search"></span>
+              </button>
+              <input type="text" name="user-table-search" id="table-search"
+                     class="user-table-search" placeholder="Search">
+            </label>
+          </form>
 
           <button class="btn btn-small btn-blue toggle-slider" id="add-user" data-toggle="userSlider">Add user </button>
         </div>
@@ -37,8 +39,8 @@
                 <th>Options</th>
               </tr>
             </thead>
+            {% if users %}
             <tbody id="index-body">
-              {% if users %}
                 {% for user in users %}
                   <tr>
                     <td>{{ user.avatarpath }}</td>
@@ -81,15 +83,16 @@
                   </tr>
 
                 {% endfor %}
-
-
-              {% else %}
-                <tr>
-                  No user data
-                </tr>
-              {% endif %}
             </tbody>
+            {% endif %}
           </table>
+          {% if users is empty %}
+            <h2 class="text-center">
+              No user data!
+
+            </h2>
+
+          {% endif %}
         </div>
       </section>
     </main>

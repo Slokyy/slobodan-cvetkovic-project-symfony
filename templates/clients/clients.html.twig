@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Clients{% endblock %}
+
+{% block body %}
+  <div class="dashboard container grid">
+    {% include('components/navigation.html.twig') %}
+    <main class="main-container">
+      <div class="overlay" data-toggle-close></div>
+
+      {% include('components/add-client.html.twig') %}
+
+      <section class="user-section">
+        <div class="section-header user-section-header flex">
+          <form action="{{ path('dashboard_index') }}" method="GET" class="flex flex-center">
+            <label class="search-group flex flex-center"
+                   for="user-table-search">
+              <button type="submit" class="btn flex search-btn" name="submitSearch">
+                <span class="icon icon-sm icon-search"></span>
+              </button>
+              <input type="text" name="user-table-search" id="table-search"
+                     class="user-table-search" placeholder="Search">
+            </label>
+          </form>
+
+          <button class="btn btn-small btn-blue toggle-slider" id="add-client" data-toggle="clientSlider">Add client </button>
+        </div>
+        <div class="user-section-table">
+          <table class="table big-table" id="table" cellspacing="1">
+            <thead>
+            <tr class="sticky">
+              <th>Avatar</th>
+              <th>Client name</th>
+              <th>Options</th>
+            </tr>
+            </thead>
+            {% if clients %}
+              <tbody id="index-body">
+              {% for client in clients %}
+                <tr>
+                  <td>{{ client.avatarpath }}</td>
+                  <td>{{ client.name }}</td>
+                  <td>
+                    <div class="user-icon-group flex">
+                      <a href="{{ path('dashboard_admin_view_client', {id: client.id}) }}">
+                        <span class="icon icon-sm icon-eye-hollow"></span>
+                      </a>
+                      <span class="icon icon-sm icon-trash toggle-modal" data-toggle="{{ client.id }}"></span>
+                    </div>
+                    <section class="delete-user-container modal delete-user-modal" id="delete-client-container" data-toggleselector="{{ client.id }}">
+
+                      <form action="{{ path('dashboard_admin_client_delete') }}" method="POST" class="delete-user-form flex">
+
+                        <h3>Are you sure you want to delete <span>{{ client.name }}</span></h3>
+
+                        <input type="hidden" name="clientId" value="{{ client.id }}">
+                        <div class="button-group flex">
+                          <input type="submit" class="btn btn-small btn-blue" value="Yes" />
+                          <input type="button" class="btn btn-small btn-blue-hollow js-btn-close" value="No" data-toggle-close />
+
+                        </div>
+                      </form>
+                    </section>
+                  </td>
+                </tr>
+
+              {% endfor %}
+              </tbody>
+            {% endif %}
+          </table>
+          {% if clients is empty %}
+            <h2 class="text-center">
+              No client data!
+
+            </h2>
+
+          {% endif %}
+        </div>
+      </section>
+    </main>
+  </div>
+
+{% endblock %}

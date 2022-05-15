@@ -28,6 +28,9 @@ class Task
     #[ORM\Column(type: 'time')]
     private $time;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $description;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,6 +80,18 @@ class Task
     public function setTime(\DateTimeInterface $time): self
     {
         $this->time = $time;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

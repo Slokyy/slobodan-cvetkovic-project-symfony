@@ -1,6 +1,6 @@
 <aside class="sidebar">
   {% set route = app.request.get('_route') %}
-  <a href="index.php"><img src="{{ asset('/images/universal-logo-small.png') }}" class="sidebar-logo" alt="Sidebar universal logo"></a>
+  <a href="{{ path('dashboard_index') }}"><img src="{{ asset('/images/universal-logo-small.png') }}" class="sidebar-logo" alt="Sidebar universal logo"></a>
 
   <div class="hamburger">
     <span class="bar bar1"></span>
@@ -12,7 +12,7 @@
     <ul class="grid">
       {% if is_granted('ROLE_ADMIN') %}
         <li class="aside-item flex {{ 'dashboard_index' in route ? 'active' }}"><a href="{{ path('dashboard_index') }}">Users</a></li>
-        <li class="aside-item flex {{ 'dashboard_clients' in route ? 'active' }}"><a href="{{ path('dashboard_clients') }}">Clients</a></li>
+        <li class="aside-item flex {{ 'dashboard_admin_clients' in route ? 'active' }}"><a href="{{ path('dashboard_admin_clients') }}">Clients</a></li>
       {% endif %}
       <li class="aside-item flex {{ 'dashboard_my_profile' in route ? 'active' }}"><a href="{{ path('dashboard_my_profile') }}">My profile</a></li>
       <li class="aside-item flex"><a href="{{ path('dashboard_logout') }}">Logout</a></li>
