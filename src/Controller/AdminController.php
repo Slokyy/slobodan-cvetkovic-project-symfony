@@ -179,14 +179,15 @@
 
 
 
+//        dd($originalPassword, $editedUser);
 
         // Password Handle
-        $plainPassword = $editForm->get('plainPassword')->getData();
+        /*$plainPassword = $editForm->get('plainPassword')->getData();
         $hashedPassword = $passwordHasher->hashPassword(
           $editedUser,
           $plainPassword
         );
-        $editedUser->setPassword($hashedPassword);
+        $editedUser->setPassword($hashedPassword);*/
 
         // Ovo je zapravo ceo avatar fajl slike
         $userImage = $editForm->get('avatar_path')->getData();
