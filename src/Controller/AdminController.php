@@ -8,10 +8,14 @@
   use Doctrine\ORM\EntityManagerInterface;
   use Doctrine\Persistence\ManagerRegistry;
   use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+  use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+  use Symfony\Component\HttpFoundation\File\Exception\FileException;
+  use Symfony\Component\HttpFoundation\File\UploadedFile;
   use Symfony\Component\HttpFoundation\Request;
   use Symfony\Component\HttpFoundation\Response;
   use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
   use Symfony\Component\Routing\Annotation\Route;
+  use Symfony\Component\String\Slugger\SluggerInterface;
 
   #[Route('/$2a$12$99iZHSovZPM6xvwAMeFeoONS69pt45Udgplt4DAdT7fDQvX12nBte/admin', name: 'dashboard_')]
   class AdminController extends AbstractController
@@ -25,7 +29,7 @@
 
 
     #[Route('/users', name: 'index')]
-    public function index(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
       if (!$this->isGranted('ROLE_ADMIN')) {
         if (!$this->isGranted('ROLE_DEVELOPER')) {
@@ -35,6 +39,7 @@
         }
       }
 
+
       // Slide form handler for adding users
       unset($user);
       unset($form);
@@ -43,6 +48,29 @@
       $form->handleRequest($request);
 
       if ($form->isSubmitted() && $form->isValid()) {
+
+        // Ovo je zapravo ceo avatar fajl slike
+        $userImage = $form->get('avatar_path')->getData();
+
+        if($userImage) {
+          $originalFilename = pathinfo($userImage->getClientOriginalName(), PATHINFO_FILENAME);
+          $safeFilename = $slugger->slug($originalFilename);
+          $newFilename = $safeFilename.'-'.uniqid().'.'.$userImage->guessExtension();
+
+          // Move file where profile images should be stored
+          try {
+            $userImage->move(
+              $this->getParameter('user_images'),
+              $newFilename
+            );
+          } catch (FileException $e) {
+            return new Response("File Upload Error: $e");
+          }
+
+          $user->setAvatarPath($newFilename);
+          $user->setAvatarAlt($form->get('first_name')->getData() . " " .$form->get('last_name')->getData());
+        }
+
         $user->setPassword(
           $userPasswordHasher->hashPassword(
             $user,
@@ -60,6 +88,8 @@
       // User repository for getting all users
       $userRepository = $entityManager->getRepository(User::class);
       $users = $userRepository->findAll();
+
+//      (dd($userRepository->findDevelopers()));
 
       // Search query top of table
 
@@ -87,7 +117,7 @@
     }
 
     #[Route('/users/{id}', name: 'admin_view_user', methods: ['GET', 'PUT'])]
-    public function viewUser($id, Request $request): Response
+    public function viewUser($id, Request $request, SluggerInterface $slugger, UserPasswordHasherInterface $passwordHasher): Response
     {
       if (!$this->isGranted('ROLE_ADMIN')) {
         if (!$this->isGranted('ROLE_DEVELOPER')) {
@@ -101,18 +131,40 @@
       $userRepository = $this->_em->getRepository(User::class);
       $user = $userRepository->find($id);
       $userTasks = $user->getTasks();
-      $totalHours = 0;
-      foreach($userTasks as $userTask) {
-        $totalHours += date_timestamp_get($userTask->getTime());
-//        dump($totalHours);
-      }
-      $totalHours = gmdate("H:i:s", $totalHours);
 
+      // Getting total hours
+      $hourArray = [];
+      $minuteArray = [];
+      foreach($userTasks as $userTask) {
+        $hourArray[] = gmdate("H", date_timestamp_get($userTask->getTime()));
+        $minuteArray[] = gmdate("i", date_timestamp_get($userTask->getTime()));
+      }
+
+      $totalHours = 0;
+      $totalMinutes = 0;
+      foreach($hourArray as $hours) {
+        $totalHours += $hours;
+      }
+      $totalMinutes = $totalHours * 60;
+      foreach($minuteArray as $minutes) {
+        $totalMinutes += $minutes;
+      }
+      $totalHoursFormated = intdiv($totalMinutes, 60).':'. ($totalMinutes % 60);
 
       $editForm = $this->createForm(EditUserType::class, $user, [
         'method' => 'PUT',
         'action' => $this->generateUrl('dashboard_admin_view_user', ['id' => $id])
       ]);
+
+      $editForm->add(
+        'plainPassword',
+        PasswordType::class,
+        [
+          // do not use Constraint NotBlank()
+          'required' => false,
+          'mapped' => false
+        ]
+      );
 
 //      dd($request->request->get("_method") );
 
@@ -121,7 +173,42 @@
 
       if($editForm->isSubmitted() && $editForm->isValid() && $request->request->get("_method") == "PUT")
       {
+
+        $originalPassword = $user->getPassword();
         $editedUser = $editForm->getData();
+
+
+
+
+        // Password Handle
+        $plainPassword = $editForm->get('plainPassword')->getData();
+        $hashedPassword = $passwordHasher->hashPassword(
+          $editedUser,
+          $plainPassword
+        );
+        $editedUser->setPassword($hashedPassword);
+
+        // Ovo je zapravo ceo avatar fajl slike
+        $userImage = $editForm->get('avatar_path')->getData();
+
+        if($userImage) {
+          $originalFilename = pathinfo($userImage->getClientOriginalName(), PATHINFO_FILENAME);
+          $safeFilename = $slugger->slug($originalFilename);
+          $newFilename = $safeFilename.'-'.uniqid().'.'.$userImage->guessExtension();
+
+          // Move file where profile images should be stored
+          try {
+            $userImage->move(
+              $this->getParameter('user_images'),
+              $newFilename
+            );
+          } catch (FileException $e) {
+            return new Response("File Upload Error: $e");
+          }
+
+          $editedUser->setAvatarPath($newFilename);
+          $editedUser->setAvatarAlt($editForm->get('first_name')->getData() . " " .$editForm->get('last_name')->getData());
+        }
 
         $userRepository->add($editedUser, true);
 
@@ -132,7 +219,7 @@
       return $this->render('admin/user-profile.html.twig', [
         'user' => $user,
         'userTasks' => $userTasks,
-        'userTotalHours' => $totalHours,
+        'userTotalHours' => $totalHoursFormated,
         'editForm' => $editForm->createView()
       ]);
     }

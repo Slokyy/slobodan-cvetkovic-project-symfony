@@ -1,0 +1,37 @@
+<section class="timer-client-container rounded-20px modal hours-user-modal" id="timer-client-container" data-toggleselector="{{ user.id }}">
+  {{ form_start(insertTaskForm, { 'attr': {'class': 'timer-form flex'} }) }}
+
+    <h3>Enter time used for: {{ user.firstName ~ " " ~ user.lastName }}</h3>
+
+    <div class="timer-group grid">
+      <div class="timer-fields flex">
+        <div class="form-group">
+          <span>Client: </span>
+          {{ form_widget(insertTaskForm.client) }}
+        </div>
+        <div class="form-group">
+          <span class="form-heading">Description:</span>
+          {{ form_widget(insertTaskForm.description) }}
+        </div>
+
+      </div>
+      <div class="timer-date">
+        <span class="form-heading">Date</span>
+        <div class="form-group">
+          {{ form_widget(insertTaskForm.month) }}
+        </div>
+        <div class="form-group">
+          <span class="form-heading">Time spent</span>
+          {{ form_widget(insertTaskForm.time) }}
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="button-group flex">
+      <input type="submit" class="btn btn-small btn-blue js-btn-close" name="insertHours" value="Yes">
+      <input type="button" class="btn btn-small btn-blue-hollow" data-toggle-close value="No">
+    </div>
+  {{ form_end(insertTaskForm) }}
+</section>

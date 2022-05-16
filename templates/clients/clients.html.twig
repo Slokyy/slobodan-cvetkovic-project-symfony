@@ -12,13 +12,13 @@
 
       <section class="user-section">
         <div class="section-header user-section-header flex">
-          <form action="{{ path('dashboard_index') }}" method="GET" class="flex flex-center">
+          <form action="{{ path('dashboard_admin_clients') }}" method="GET" class="flex flex-center">
             <label class="search-group flex flex-center"
                    for="user-table-search">
               <button type="submit" class="btn flex search-btn" name="submitSearch">
                 <span class="icon icon-sm icon-search"></span>
               </button>
-              <input type="text" name="user-table-search" id="table-search"
+              <input type="text" name="client-table-search" id="table-search"
                      class="user-table-search" placeholder="Search">
             </label>
           </form>
@@ -38,7 +38,10 @@
               <tbody id="index-body">
               {% for client in clients %}
                 <tr>
-                  <td>{{ client.avatarpath }}</td>
+                  <td>
+                    <img src="{{ asset('images/profile-images/client-images/'~client.avatarpath) }}" alt="{{ client.avataralt }}" class="table-first-img">
+
+                  </td>
                   <td>{{ client.name }}</td>
                   <td>
                     <div class="user-icon-group flex">

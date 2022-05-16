@@ -19,8 +19,8 @@
           </a>
 
           <form class="profile-group flex flex-center flex-column">
-            <img src="./images/profile-images/profile-guy-one.png"
-                 class="rounded-50" alt="Profile image of a guy">
+            <img src="{{ asset('images/profile-images/client-images/'~client.avatarpath) }}" alt="{{ client.avataralt }}"
+                 class="rounded-50">
 
             <h2>
               {{ client.name }}
@@ -44,47 +44,52 @@
 
             </div>
 
-            <p>Ovde ide forma za odabir developera i meseca</p>
+            {{ form_start(clientFilterForm, { 'attr': {'class': 'slide-form flex'}}) }}
+            <div class="form-group">
+              {{ form_row(clientFilterForm.user) }}
+            </div>
 
+            <div class="form-group">
+              {{ form_row(clientFilterForm.month) }}
+            </div>
+            {{ form_end(clientFilterForm) }}
            {# <div class="form-group mb-30">
 
               <span class="bold-14">Total hours: {{ userTotalHours }}</span>
             </div>#}
+            <a href="{{ path('dashboard_admin_view_client', {id: client.id}) }}">Refresh</a>
 
 
           </form>
         </div>
         <div class="profile-table-area table-wrapper">
           <!-- <div class="table-wrapper"> -->
-          <p>ovde ce ici client tasks</p>
-          <p>Developer / Task / Month / Time</p>
-{#          {% if userTasks is not empty %}#}
-{#            <table class="table table-sm-blue" id="dev-client-table">#}
-{#              <thead>#}
-{#              <tr class="sticky">#}
-{#                <th>Client</th>#}
-{#                <th>Task</th>#}
-{#                <th>Month</th>#}
-{#                <th>Time</th>#}
-{#              </tr>#}
-{#              </thead>#}
-{#              <tbody>#}
-{#              {% for userTask in userTasks %}#}
-{#                #}{#                  <p>{{ dump(userTask) }}</p>#}
-{#                <tr>#}
+          {% if clientTasks is not empty %}
+            <table class="table table-sm-blue" id="dev-client-table">
+              <thead>
+              <tr class="sticky">
+                <th>Developer</th>
+                <th>Task</th>
+                <th>Month</th>
+                <th>Time</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for clientTask in clientTasks %}
+                <tr>
+                  <td>
+                    {{ clientTask.user.firstname }} {{ clientTask.user.lastname }}
+                  </td>
+                  <td>
+                    {{ clientTask.description }}
+                  </td>
+                  <td>
+                    {{ clientTask.month | date('d / m / Y')  }}
+                  </td>
+                  <td>
+                    {{ clientTask.time | date("H:i:s") }}
+                  </td>
 {#                  <td>#}
-{#                    {{ userTask.client.name }}#}
-{#                  </td>#}
-{#                  <td>#}
-{#                    {{ userTask.description }}#}
-{#                  </td>#}
-{#                  <td>#}
-{#                    {{ userTask.month | date('d / m / Y')  }}#}
-{#                  </td>#}
-{#                  <td>#}
-{#                    {{ userTask.time | date("H:i:s") }}#}
-{#                  </td>#}
-{#                  #}{#<td>#}
 {#                      <div class="user-icon-group flex">#}
 {#                        <a href="#!">#}
 {#                          <span class="icon icon-sm icon-edit"></span>#}
@@ -94,17 +99,17 @@
 {#                        </a>#}
 {#                      </div>#}
 {#                    </td>#}
-{#                </tr>#}
-{#              {% endfor %}#}
+                </tr>
+              {% endfor %}
 
 
 
-{#              </tbody>#}
-{#            </table>#}
+              </tbody>
+            </table>
 
-{#          {% else %}#}
-{#            <p>No tasks</p>#}
-{#          {% endif %}#}
+          {% else %}
+            <h2>There are no tasks</h2>
+          {% endif %}
           <!-- </div> -->
         </div>
       </section>

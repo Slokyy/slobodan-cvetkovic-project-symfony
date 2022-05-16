@@ -71,5 +71,7 @@ class ToggleClass
 
 let toggleSlider = new ToggleClass('.toggle-slider', '.slide-container').init();
 let toggleModal = new ToggleClass('.toggle-modal', '.delete-user-modal').init();
+let toggleTaskModal = new ToggleClass('.toggle-hour-modal', '.hours-user-modal').init();
 
-console.log(toggleSlider);
+
+console.log(toggleTaskModal);

@@ -7,10 +7,12 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -48,6 +50,7 @@ class EditUserType extends AbstractType
           'label_attr' => [
             'class' => 'label-name'
           ],
+          'empty_data' => 'John Doe',
         ])
         ->add('city', TextType::class, [
           'attr' => [
@@ -83,8 +86,9 @@ class EditUserType extends AbstractType
           // instead of being set onto the object directly,
           // this is read and encoded in the controller
           'mapped' => false,
+          "always_empty" => false,
           'attr' => [
-            'autocomplete' => 'new-password',
+//            'autocomplete' => 'new-password',
             'class' => 'slide-form'
           ],
           'label_html' => true,
@@ -142,14 +146,28 @@ class EditUserType extends AbstractType
             'class' => 'label-name'
           ],
         ])
-        ->add('avatar_path', TextType::class, [
+        ->add('avatar_path', FileType::class, [
+          'mapped' => false,
+          'required' => false,
+          'constraints' => [
+            new File([
+              'maxSize' => '10024k',
+              'maxSizeMessage' => 'File is over {{ maxSize }}KB',
+              'mimeTypes' => [
+                'image/gif',
+                'image/jpeg',
+                'image/png'
+              ],
+              'mimeTypesMessage' => 'Please upload a valid Image document',
+            ])
+          ],
           'attr' => [
             'class' => 'slide-form'
           ],
           'label_html' => true,
-          'label' => '<span class="content-name flex">Image path:</span>',
+          'label' => '',
           'label_attr' => [
-            'class' => 'label-name'
+            'class' => 'label-image flex'
           ],
         ]);
 

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}My Profile{% endblock %}
+{% block title %}Client Profile{% endblock %}
 
 {% block body %}
 
@@ -19,8 +19,8 @@
           </a>
 
           <form class="profile-group flex flex-center flex-column">
-            <img src="./images/profile-images/profile-guy-one.png"
-                 class="rounded-50" alt="Profile image of a guy">
+            <img src="{{ asset('images/profile-images/user-images/'~user.avatarpath) }}" alt="{{ user.avataralt }}"
+                 class="rounded-50">
 
             <h2>
               {% set fullname = user.firstname ~ " " ~ user.lastname %}

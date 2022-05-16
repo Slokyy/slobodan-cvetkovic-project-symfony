@@ -43,7 +43,9 @@
             <tbody id="index-body">
                 {% for user in users %}
                   <tr>
-                    <td>{{ user.avatarpath }}</td>
+                    <td>
+                      <img src="{{ asset('images/profile-images/user-images/'~user.avatarpath) }}" alt="{{ user.avataralt }}" class="table-first-img">
+                    </td>
                     <td>{{ user.firstname }}</td>
                     <td>{{ user.lastname }}</td>
                     <td>{{ user.city }}</td>

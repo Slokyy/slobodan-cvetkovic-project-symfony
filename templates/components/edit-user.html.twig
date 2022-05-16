@@ -1,10 +1,12 @@
 <section class="slide-container new-user-container" id="new-user-container" data-toggleselector="userSlider">
   <span class="icon icon-md icon-ex slide-ex" data-toggle-close></span>
   {{ form_start(editForm, { 'method': 'PUT', 'attr': {'class': 'slide-form flex'}}) }}
-  <h2>Edit User</h2>
+  <h2>Edit {{ app.user.firstName }}</h2>
 
-  <div class="form-group">
-    {{ form_row(editForm.avatar_path, { 'attr': {'class': 'slide-form flex'}}) }}
+  <div class="form-group flex">
+    <img src="{{ asset('images/profile-images/user-images/'~user.avatarpath) }}" alt="{{ user.avataralt }}" class="profile-picture">
+    {{ form_label(editForm.avatar_path) }}
+    {{ form_widget(editForm.avatar_path, { 'attr': {'class': 'edit-user-img'}}) }}
   </div>
 
   <div class="form-group">

@@ -11,36 +11,57 @@
 
         {{ form_widget(registrationForm.first_name) }}
         {{ form_label(registrationForm.first_name) }}
+        <div class="mb-30 input-error">
+            {{ form_errors(registrationForm.first_name) }}
+        </div>
     </div>
     <div class="form-group">
 
         {{ form_widget(registrationForm.last_name) }}
         {{ form_label(registrationForm.last_name) }}
+        <div class="mb-30 input-error">
+            {{ form_errors(registrationForm.last_name) }}
+        </div>
     </div>
     <div class="form-group">
 
         {{ form_widget(registrationForm.street) }}
         {{ form_label(registrationForm.street) }}
+        <div class="mb-30 input-error">
+            {{ form_errors(registrationForm.street) }}
+        </div>
     </div>
     <div class="form-group">
 
         {{ form_widget(registrationForm.city) }}
         {{ form_label(registrationForm.city) }}
+        <div class="mb-30 input-error">
+            {{ form_errors(registrationForm.city) }}
+        </div>
     </div>
     <div class="form-group">
 
         {{ form_widget(registrationForm.country) }}
         {{ form_label(registrationForm.country) }}
+        <div class="mb-30 input-error">
+            {{ form_errors(registrationForm.country) }}
+        </div>
     </div>
     <div class="form-group">
 
         {{ form_widget(registrationForm.email) }}
         {{ form_label(registrationForm.email) }}
+        <div class="mb-30 input-error">
+            {{ form_errors(registrationForm.email) }}
+        </div>
     </div>
     <div class="form-group">
 
         {{ form_widget(registrationForm.plainPassword) }}
         {{ form_label(registrationForm.plainPassword) }}
+        <div class="mb-30 input-error">
+            {{ form_errors(registrationForm.plainPassword) }}
+        </div>
 
     </div>
 
@@ -59,6 +80,9 @@
 
         {{ form_widget(registrationForm.bank_acc) }}
         {{ form_label(registrationForm.bank_acc) }}
+        <div class="mb-30 input-error">
+            {{ form_errors(registrationForm.bank_acc) }}
+        </div>
 
     </div>
 

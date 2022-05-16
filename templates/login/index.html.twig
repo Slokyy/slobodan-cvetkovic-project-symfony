@@ -8,14 +8,15 @@
 
             <form action="{{ path('dashboard_login') }}" method="POST" class="form form-login flex">
 
-                {% if error %}
-                    {#                {{ error.messageKey }}#}
-                    {{ error.messageKey|trans(error.messageData, 'security') }}
-                {% endif %}
+
                 <img src="{{ asset('./images/universal-logo-big.png') }}" alt="Logo of universal studios thats above the login form">
 
                 <div class="heading-group">
                     <h1>Login</h1>
+                    {% if error %}
+                        {#                {{ error.messageKey }}#}
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    {% endif %}
                 </div>
                 <!-- / -->
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
