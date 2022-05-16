@@ -92,6 +92,7 @@ class EditUserType extends AbstractType
             'class' => 'slide-form'
           ],
           'label_html' => true,
+          'required' => false,
           'label' => '<span class="content-name">Password:</span>',
           'label_attr' => [
             'class' => 'label-name'

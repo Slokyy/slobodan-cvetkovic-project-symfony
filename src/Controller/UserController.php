@@ -9,11 +9,14 @@
   use App\Form\TaskType;
   use Doctrine\ORM\EntityManagerInterface;
   use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+  use Symfony\Component\HttpFoundation\File\Exception\FileException;
   use Symfony\Component\HttpFoundation\Request;
   use Symfony\Component\HttpFoundation\Response;
+  use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
   use Symfony\Component\Routing\Annotation\Route;
   use Symfony\Component\Security\Core\Security;
   use Symfony\Component\Security\Core\User\UserInterface;
+  use Symfony\Component\String\Slugger\SluggerInterface;
 
   #[Route('$2a$12$99iZHSovZPM6xvwAMeFeoONS69pt45Udgplt4DAdT7fDQvX12nBte', name: "dashboard_")]
   class UserController extends AbstractController
@@ -37,7 +40,7 @@
      * @throws \Doctrine\ORM\Exception\ORMException
      */
     #[Route('/dashboard/my-profile', name: 'my_profile')]
-    public function index(Request $request): Response
+    public function index(Request $request, UserPasswordHasherInterface $passwordHasher, SluggerInterface $slugger): Response
     {
 
       $loggedUser = $this->security->getUser();
@@ -66,7 +69,53 @@
 
       if($editForm->isSubmitted() && $editForm->isValid() && $request->isMethod("PUT"))
       {
+        $originalPassword = $user->getPassword();
+
         $editedUser = $editForm->getData();
+
+
+        $plainPassword = $editForm->get('plainPassword')->getData();
+//        dd($originalPassword, $plainPassword);
+        if($plainPassword !== null) {
+//          $plainPassword = $originalPassword;
+          $hashedPassword = $passwordHasher->hashPassword(
+            $editedUser,
+            $plainPassword
+          );
+          $editedUser->setPassword($hashedPassword);
+        }
+        if($plainPassword === null) {
+          $editedUser->setPassword($originalPassword);
+        }
+
+
+
+
+//        dd($originalPassword, $editedUser);
+
+        // Ovo je zapravo ceo avatar fajl slike
+        $userImage = $editForm->get('avatar_path')->getData();
+
+        if($userImage) {
+          $originalFilename = pathinfo($userImage->getClientOriginalName(), PATHINFO_FILENAME);
+          $safeFilename = $slugger->slug($originalFilename);
+          $newFilename = $safeFilename.'-'.uniqid().'.'.$userImage->guessExtension();
+
+          // Move file where profile images should be stored
+          try {
+            $userImage->move(
+              $this->getParameter('user_images'),
+              $newFilename
+            );
+          } catch (FileException $e) {
+            return new Response("File Upload Error: $e");
+          }
+
+          $editedUser->setAvatarPath($newFilename);
+          $editedUser->setAvatarAlt($editForm->get('first_name')->getData() . " " .$editForm->get('last_name')->getData());
+        }
+
+
         $this->userRepository->add($editedUser, true);
         return $this->redirectToRoute('dashboard_my_profile');
       }

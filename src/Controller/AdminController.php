@@ -156,15 +156,7 @@
         'action' => $this->generateUrl('dashboard_admin_view_user', ['id' => $id])
       ]);
 
-      $editForm->add(
-        'plainPassword',
-        PasswordType::class,
-        [
-          // do not use Constraint NotBlank()
-          'required' => false,
-          'mapped' => false
-        ]
-      );
+
 
 //      dd($request->request->get("_method") );
 
@@ -173,22 +165,25 @@
 
       if($editForm->isSubmitted() && $editForm->isValid() && $request->request->get("_method") == "PUT")
       {
-
         $originalPassword = $user->getPassword();
         $editedUser = $editForm->getData();
 
-
+        // Password Handle
+        $plainPassword = $editForm->get('plainPassword')->getData();
+//        dd($originalPassword, $plainPassword);
+        if($plainPassword !== null) {
+//          $plainPassword = $originalPassword;
+          $hashedPassword = $passwordHasher->hashPassword(
+            $editedUser,
+            $plainPassword
+          );
+          $editedUser->setPassword($hashedPassword);
+        }
+        if($plainPassword === null) {
+          $editedUser->setPassword($originalPassword);
+        }
 
 //        dd($originalPassword, $editedUser);
-
-        // Password Handle
-        /*$plainPassword = $editForm->get('plainPassword')->getData();
-        $hashedPassword = $passwordHasher->hashPassword(
-          $editedUser,
-          $plainPassword
-        );
-        $editedUser->setPassword($hashedPassword);*/
-
         // Ovo je zapravo ceo avatar fajl slike
         $userImage = $editForm->get('avatar_path')->getData();
 
