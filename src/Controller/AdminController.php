@@ -240,7 +240,6 @@
 
         $taskRepository = $this->_em->getRepository(Task::class);
         $userTasks = $taskRepository->getFilteredClientTasks($user, $month, $filterClient);
-//        dd($userTasks);
       }
 
 
