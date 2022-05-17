@@ -180,9 +180,6 @@
           $editedUser->setPassword($originalPassword);
         }
 
-
-
-
         // Ovo je zapravo ceo avatar fajl slike
         $userImage = $editForm->get('avatar_path')->getData();
 
@@ -237,8 +234,8 @@
         'user' => $user,
         'userTasks' => $userTasks,
         'userTotalHours' => $totalHoursFormated,
-        'editForm' => $editForm
-//        'adminFilterForm' => $adminFilterForm
+        'editForm' => $editForm,
+        'adminFilterForm' => $adminFilterForm
       ]);
     }
 
