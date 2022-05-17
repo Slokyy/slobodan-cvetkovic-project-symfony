@@ -180,19 +180,7 @@
           $editedUser->setPassword($originalPassword);
         }
 
-        // Filter on admin/users
 
-        $adminFilterForm = $this->createForm(UserFilterType::class, $user, [
-          'method' => 'GET',
-          'action' => $this->generateUrl('dashboard_admin_view_user', ['id' => $id])
-        ]);
-
-        $adminFilterForm->handleRequest($request);
-
-        if($adminFilterForm->isSubmitted() && $adminFilterForm->isValid() && $request->isMethod("GET"))
-        {
-          dd($adminFilterForm);
-        }
 
         // Ovo je zapravo ceo avatar fajl slike
         $userImage = $editForm->get('avatar_path')->getData();
@@ -221,7 +209,6 @@
         return $this->redirectToRoute('dashboard_admin_view_user', ['id' => $id]);
       }
 
-      // added comment
       // Filter on admin/users
 
       $adminFilterForm = $this->createForm(UserFilterType::class, null, [
@@ -233,6 +220,7 @@
 
       if($adminFilterForm->isSubmitted() && $adminFilterForm->isValid() && $request->isMethod("GET"))
       {
+        // git is not good right now
         $data = $adminFilterForm->getData();
         $filterClient = $data['client'];
         $filterDate = $data['month'];
