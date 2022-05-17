@@ -53,7 +53,6 @@
 //        dd("Uspeh");
         $client = $form->getData();
 
-
         $clientImage = $form->get('avatar_path')->getData();
 
         if($clientImage) {
@@ -74,13 +73,7 @@
           $client->setAvatarPath($newFilename);
           $client->setAvatarAlt($form->get('name')->getData());
         }
-
-
         $clientRepository->add($client, true);
-
-
-
-
         return $this->redirectToRoute('dashboard_admin_clients');
       }
 
@@ -93,10 +86,6 @@
 
         $clients = $clientRepository->getSearchedClientsQuery($searchParam);
 
-//        return $this->render('admin/index.html.twig', [
-//          'registrationForm' => $form->createView(),
-//          'users' => $users
-//        ]);
       }
 
       return $this->render('clients/clients.html.twig', [
@@ -120,22 +109,19 @@
       $client = $clientRepository->find($id);
 
       $clientTasks = $client->getTasks();
-//      foreach($clientTasks as $clientTask) {
-//
-//        dd($clientTask);
-//      }
+
 
       $editClientForm = $this->createForm(ClientType::class, $client, [
         'method' => 'PUT',
         'action' => $this->generateUrl("dashboard_admin_view_client", ['id' => $id])
       ]);
 
+      $editClientForm->handleRequest($request);
+
       $filterClientForm = $this->createForm(ClientFilterType::class, $clientTasks, [
         'method' => 'GET',
         'action' => $this->generateUrl("dashboard_admin_view_client", ['id' => $id])
       ]);
-
-      $editClientForm->handleRequest($request);
 
       $filterClientForm->handleRequest($request);
 

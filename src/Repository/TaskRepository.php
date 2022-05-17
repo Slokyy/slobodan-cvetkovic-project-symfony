@@ -85,4 +85,14 @@
         ->getQuery()
         ->getResult();
     }
+
+//    public function getFilteredUserTasks($targetclient, $month, $user)
+//    {
+//      return $this->createQueryBuilder('t')
+//        ->where('t.user = :user')
+//        ->andWhere('t.client = :targetClient')
+//        ->andWhere('MONTH(t.month = :month')
+//        ->setParameters('user', $user)
+//        ->setParameters('')
+//    }
   }

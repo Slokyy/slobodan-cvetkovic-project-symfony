@@ -45,6 +45,7 @@
 
       $loggedUser = $this->security->getUser();
       $user = $this->userRepository->findOneBy(['email' => $loggedUser->getUserIdentifier()]);
+
       $userId = $user->getId();
 
       // User Task

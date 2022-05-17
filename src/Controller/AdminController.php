@@ -2,9 +2,12 @@
 
   namespace App\Controller;
 
+  use App\Entity\Task;
   use App\Entity\User;
   use App\Form\EditUserType;
   use App\Form\RegistrationFormType;
+  use App\Form\UserFilterType;
+  use App\Repository\TaskRepository;
   use Doctrine\ORM\EntityManagerInterface;
   use Doctrine\Persistence\ManagerRegistry;
   use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -157,11 +160,7 @@
       ]);
 
 
-
-//      dd($request->request->get("_method") );
-
       $editForm->handleRequest($request);
-//      dd($editForm);
 
       if($editForm->isSubmitted() && $editForm->isValid() && $request->request->get("_method") == "PUT")
       {
@@ -170,9 +169,7 @@
 
         // Password Handle
         $plainPassword = $editForm->get('plainPassword')->getData();
-//        dd($originalPassword, $plainPassword);
         if($plainPassword !== null) {
-//          $plainPassword = $originalPassword;
           $hashedPassword = $passwordHasher->hashPassword(
             $editedUser,
             $plainPassword
@@ -183,7 +180,20 @@
           $editedUser->setPassword($originalPassword);
         }
 
-//        dd($originalPassword, $editedUser);
+        // Filter on admin/users
+
+        $adminFilterForm = $this->createForm(UserFilterType::class, $user, [
+          'method' => 'GET',
+          'action' => $this->generateUrl('dashboard_admin_view_user', ['id' => $id])
+        ]);
+
+        $adminFilterForm->handleRequest($request);
+
+        if($adminFilterForm->isSubmitted() && $adminFilterForm->isValid() && $request->isMethod("GET"))
+        {
+          dd($adminFilterForm);
+        }
+
         // Ovo je zapravo ceo avatar fajl slike
         $userImage = $editForm->get('avatar_path')->getData();
 
@@ -211,12 +221,35 @@
         return $this->redirectToRoute('dashboard_admin_view_user', ['id' => $id]);
       }
 
+      // Filter on admin/users
 
-      return $this->render('admin/user-profile.html.twig', [
+      $adminFilterForm = $this->createForm(UserFilterType::class, null, [
+        'method' => 'GET',
+        'action' => $this->generateUrl('dashboard_admin_view_user', ['id' => $id])
+      ]);
+
+      $adminFilterForm->handleRequest($request);
+
+      if($adminFilterForm->isSubmitted() && $adminFilterForm->isValid() && $request->isMethod("GET"))
+      {
+        $data = $adminFilterForm->getData();
+        $filterClient = $data['client'];
+        $filterDate = $data['month'];
+        $month = (int)$filterDate->format('m');
+
+
+        $taskRepository = $this->_em->getRepository(Task::class);
+        $userTasks = $taskRepository->getFilteredClientTasks($user, $month, $filterClient);
+//        dd($userTasks);
+      }
+
+
+      return $this->renderForm('admin/user-profile.html.twig', [
         'user' => $user,
         'userTasks' => $userTasks,
         'userTotalHours' => $totalHoursFormated,
-        'editForm' => $editForm->createView()
+        'editForm' => $editForm,
+        'adminFilterForm' => $adminFilterForm
       ]);
     }
 
