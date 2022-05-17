@@ -221,6 +221,7 @@
         return $this->redirectToRoute('dashboard_admin_view_user', ['id' => $id]);
       }
 
+      // added comment
       // Filter on admin/users
 
       $adminFilterForm = $this->createForm(UserFilterType::class, null, [
