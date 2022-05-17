@@ -182,17 +182,17 @@
 
         // Filter on admin/users
 
-        $adminFilterForm = $this->createForm(UserFilterType::class, $user, [
-          'method' => 'GET',
-          'action' => $this->generateUrl('dashboard_admin_view_user', ['id' => $id])
-        ]);
-
-        $adminFilterForm->handleRequest($request);
-
-        if($adminFilterForm->isSubmitted() && $adminFilterForm->isValid() && $request->isMethod("GET"))
-        {
-          dd($adminFilterForm);
-        }
+//        $adminFilterForm = $this->createForm(UserFilterType::class, $user, [
+//          'method' => 'GET',
+//          'action' => $this->generateUrl('dashboard_admin_view_user', ['id' => $id])
+//        ]);
+//
+//        $adminFilterForm->handleRequest($request);
+//
+//        if($adminFilterForm->isSubmitted() && $adminFilterForm->isValid() && $request->isMethod("GET"))
+//        {
+//          dd($adminFilterForm);
+//        }
 
         // Ovo je zapravo ceo avatar fajl slike
         $userImage = $editForm->get('avatar_path')->getData();
@@ -248,8 +248,8 @@
         'user' => $user,
         'userTasks' => $userTasks,
         'userTotalHours' => $totalHoursFormated,
-        'editForm' => $editForm,
-        'adminFilterForm' => $adminFilterForm
+        'editForm' => $editForm
+//        'adminFilterForm' => $adminFilterForm
       ]);
     }
 

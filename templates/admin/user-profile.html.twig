@@ -58,15 +58,15 @@
               <span class="bold-14">Total hours: {{ userTotalHours }}</span>
             </div>
 
-            {{ form_start(adminFilterForm, { 'attr': { 'class': 'slide-form flex' }}) }}
-            <div class="form-group">
-              {{ form_row(adminFilterForm.client) }}
-            </div>
-            <div class="form-group">
-              {{ form_row(adminFilterForm.month) }}
-            </div>
+{#            {{ form_start(adminFilterForm, { 'attr': { 'class': 'slide-form flex' }}) }}#}
+{#            <div class="form-group">#}
+{#              {{ form_row(adminFilterForm.client) }}#}
+{#            </div>#}
+{#            <div class="form-group">#}
+{#              {{ form_row(adminFilterForm.month) }}#}
+{#            </div>#}
 
-            {{ form_end(adminFilterForm) }}
+{#            {{ form_end(adminFilterForm) }}#}
             <a href="{{ path('dashboard_admin_view_user', {id: user.id}) }}">Refresh</a>
 
           </div>
