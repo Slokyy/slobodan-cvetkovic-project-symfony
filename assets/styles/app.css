@@ -754,6 +754,10 @@ section.timer-client-container {
     z-index: 1;
 }
 
+.table-sm-blue.table-z-index-fix {
+    z-index: unset;
+}
+
 .table-sm-blue thead tr {
     color: #fff;
     font-size: 16px;

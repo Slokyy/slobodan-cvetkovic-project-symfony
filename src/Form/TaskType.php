@@ -20,8 +20,7 @@
       $yearNext = (int)date('Y', strtotime($yearNow . ' + 1 year'));
       $builder
         ->add('month', DateType::class, [
-          'widget' => 'choice',
-          'input' => 'datetime_immutable',
+          'widget' => 'single_text',
           'years' => range($yearNow, $yearNext)
         ])
         ->add('client', EntityType::class, [

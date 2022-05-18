@@ -7,10 +7,10 @@
   <div class="dashboard container grid">
     {% include('components/navigation.html.twig') %}
     <main class="main-container">
-      <div class="overlay" data-toggle-close></div>
 
       {% include('components/edit-user.html.twig') %}
       {% include('components/dev-hours-modal.html.twig') %}
+
 
       <section class="section-profile dev-profile-page grid">
         <div class="profile-info flex flex-center">
@@ -53,7 +53,7 @@
 
             {% if user.roles[0] != "ROLE_ADMIN" %}
               <div class="form-group mb-30">
-                <button data-toggle="{{ user.id }}" class="btn-small btn-blue toggle-hour-modal">Insert Hours</button>
+                <button data-toggle="{{ user.id }}" class="btn btn-small btn-blue toggle-hour-modal">Insert Hours</button>
               </div>
             {% endif %}
 
@@ -67,9 +67,10 @@
         </div>
         <div class="profile-table-area table-wrapper">
           <!-- <div class="table-wrapper"> -->
+
           {% if user.roles[0] != "ROLE_ADMIN" %}
             {% if userTasks is not empty %}
-              <table class="table table-sm-blue" id="dev-client-table">
+              <table class="table table-sm-blue table-z-index-fix" id="dev-client-table">
                 <thead>
                 <tr class="sticky">
                   <th>Client</th>
@@ -79,7 +80,7 @@
                   <th>Options</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="index-body">
                 {% for userTask in userTasks %}
                   {# <p>{{ dump(userTask) }}</p> #}
                   <tr>
@@ -97,12 +98,28 @@
                     </td>
                     <td>
                       <div class="user-icon-group flex">
-                        <a href="#!">
+                        <a href="{{ path('dashboard_my_profile_edit_task', {taskId: userTask.id}) }}">
                           <span class="icon icon-sm icon-edit"></span>
                         </a>
-                        <a href="#!">
-                          <span class="icon icon-sm icon-trash"></span>
-                        </a>
+
+                        <span class="icon icon-sm icon-trash toggle-modal" data-toggle="{{ userTask.id }}"></span>
+
+                        <section class="delete-user-container modal delete-user-modal" id="delete-user-container" data-toggleselector="{{ userTask.id }}">
+
+                          <form action="{{ path('dashboard_my_profile_delete_task') }}" method="POST" class="delete-user-form flex">
+
+                            <h3>Are you sure you want to delete <span>{{ userTask.client.name }} {{ userTask.description }}</span></h3>
+
+                            <input type="hidden" name="taskId" value="{{ userTask.id }}">
+                            <div class="button-group flex">
+                              <input type="submit" class="btn btn-small btn-blue" value="Yes" />
+                              <input type="button" class="btn btn-small btn-blue-hollow js-btn-close" value="No" data-toggle-close />
+
+                            </div>
+                          </form>
+                        </section>
+
+
                       </div>
                     </td>
                   </tr>
@@ -121,8 +138,12 @@
           <!-- </div> -->
         </div>
       </section>
+
     </main>
   </div>
+
+  <div class="overlay" data-toggle-close></div>
+
 
 
 {% endblock %}

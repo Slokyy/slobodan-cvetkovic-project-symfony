@@ -152,4 +152,62 @@
       ]);
     }
 
+
+    #[Route('/dashboard/my-profile/edit-task/{taskId}', name: 'my_profile_edit_task')]
+    public function editTask($taskId, Request $request): Response
+    {
+      $loggedUser = $this->security->getUser();
+      $user = $this->userRepository->findOneBy(["email" => $loggedUser->getUserIdentifier()]);
+      $clients = $this->clientRepository->findAll();
+      $task = $this->taskRepository->find($taskId);
+
+      $editTaskForm = $this->createForm(TaskType::class, $task, [
+        'method' => "PUT",
+        'action' => $this->generateUrl('dashboard_my_profile_edit_task', ['taskId' => $taskId])
+      ]);
+
+      $editTaskForm->handleRequest($request);
+
+      if($editTaskForm->isSubmitted() && $editTaskForm->isValid() && $request->isMethod("PUT"))
+      {
+        $editedTask = $editTaskForm->getData();
+        $this->taskRepository->add($editedTask, true);
+
+        return $this->redirectToRoute('dashboard_my_profile');
+      }
+
+
+      return $this->renderForm('user/edit-task.html.twig', [
+        'user' => $user,
+        'client' => $clients,
+        'editTaskForm' => $editTaskForm
+      ]);
+    }
+
+    #[Route('/dashboard/my-profile/delete-task', name: 'my_profile_delete_task')]
+    public function delete(Request $request): Response
+    {
+      // Get the user
+      $loggedUser = $this->security->getUser();
+      // Getting the user through the db
+      $user = $this->userRepository->findOneBy(['email' => $loggedUser->getUserIdentifier()]);
+
+      $taskId = $request->request->get('taskId');
+      dd($taskId);
+      // Get task and check its user id
+      $task = $this->taskRepository->find($taskId);
+      $taskUserId = $task->getUser()->getId();
+      // check if user is owner of the task
+      $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+      if($user->getId() === $taskUserId) {
+        $this->taskRepository->remove($task, true);
+        return $this->redirectToRoute('dashboard_my_profile');
+      }
+
+//      dd($loggedUser, $user, $taskId, $task, $taskUserId);
+
+      return $this->redirectToRoute('dashboard_my_profile');
+    }
+
   }
