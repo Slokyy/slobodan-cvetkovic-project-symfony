@@ -12,7 +12,7 @@ Below we will setup the symfony project
 Open your designated terminal and go to your www, htdocs, html ... etc folder and run the below command.
 
 ```bash
-git clone git@github.com:Slokyy/docker-symfony.git
+git clone git@github.com:Slokyy/slobodan-cvetkovic-project-symfony.git
 ```
 
 ## Installing dependencies
