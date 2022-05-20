@@ -23,21 +23,6 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `clients`
---
-
-DROP TABLE IF EXISTS `clients`;
-CREATE TABLE IF NOT EXISTS `clients` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `avatar_path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `avatar_alt` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payment_method` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `bank_acc` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `clients`
@@ -51,75 +36,6 @@ INSERT INTO `clients` (`id`, `name`, `avatar_path`, `avatar_alt`, `email`, `paym
 (7, 'Coca Cola', 'coca-cola-6284aaf937c41.png', 'Coca Cola', 'cocacola@mail.com', 'VISA', '309420492304902');
 
 -- --------------------------------------------------------
-
---
--- Table structure for table `doctrine_migration_versions`
---
-
-DROP TABLE IF EXISTS `doctrine_migration_versions`;
-CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
-  `version` varchar(191) COLLATE utf8_unicode_ci NOT NULL,
-  `executed_at` datetime DEFAULT NULL,
-  `execution_time` int(11) DEFAULT NULL,
-  PRIMARY KEY (`version`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `doctrine_migration_versions`
---
-
-INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
-('DoctrineMigrations\\Version20220510090957', '2022-05-10 09:10:24', 855),
-('DoctrineMigrations\\Version20220515122116', '2022-05-15 12:21:47', 1695),
-('DoctrineMigrations\\Version20220518080903', '2022-05-18 08:09:21', 648),
-('DoctrineMigrations\\Version20220518081126', '2022-05-18 08:11:31', 366),
-('DoctrineMigrations\\Version20220518081414', '2022-05-18 08:14:20', 353);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `messenger_messages`
---
-
-DROP TABLE IF EXISTS `messenger_messages`;
-CREATE TABLE IF NOT EXISTS `messenger_messages` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `body` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `headers` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue_name` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  `available_at` datetime NOT NULL,
-  `delivered_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_75EA56E0FB7336F0` (`queue_name`),
-  KEY `IDX_75EA56E0E3BD61CE` (`available_at`),
-  KEY `IDX_75EA56E016BA31DB` (`delivered_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `roles` json NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `street` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `country` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `bank_acc` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `avatar_path` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `avatar_alt` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQ_1483A5E9E7927C74` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
@@ -138,24 +54,6 @@ INSERT INTO `users` (`id`, `email`, `roles`, `password`, `first_name`, `last_nam
 (14, 'nebojsamarkovic@mail.com', '[\"ROLE_DEVELOPER\"]', '$2y$13$XtVoQmQb2G.pSwFZe0rXdetxusZTZesc2YGWNwnpzgG6FUSOD7bOO', 'Nebojsa', 'Marković', 'Beogradski put', 'Subotica', 'Srbija', 'ACTIVE', '420420420420420420', 'stefan-stevic-62849282c2d91.jpg', 'Nebojsa Marković');
 
 -- --------------------------------------------------------
-
---
--- Table structure for table `user_client`
---
-
-DROP TABLE IF EXISTS `user_client`;
-CREATE TABLE IF NOT EXISTS `user_client` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `client_id` int(11) NOT NULL,
-  `month` datetime NOT NULL,
-  `time` time NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_A2161F68A76ED395` (`user_id`),
-  KEY `IDX_A2161F6819EB6921` (`client_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 --
 -- Dumping data for table `user_client`
 --
@@ -172,18 +70,3 @@ INSERT INTO `user_client` (`id`, `user_id`, `client_id`, `month`, `time`, `descr
 (12, 6, 1, '2022-01-01 00:00:00', '00:59:00', 'sdawdawdawdaw'),
 (13, 6, 1, '2022-01-01 00:00:00', '09:55:00', 'dawdawdawdawd');
 
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `user_client`
---
-ALTER TABLE `user_client`
-  ADD CONSTRAINT `FK_A2161F6819EB6921` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_A2161F68A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
