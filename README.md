@@ -69,6 +69,53 @@ After this you should check your database and confirm that you have sucessfully 
 You should see 5 tables, doctrines doctrine_migration_versions and messenger_messages and most importantly: users, clients and user_client tables
 
 These tables should have their structure setup.
+
+### Optional: Setting up data
+If you want you can grab the dummy files you can find it in *symfony_project_main.sql* file at the base of the project.
+
+Here you have every table with some data and an admin with email: admin@mail.com and password: secret
+
+### If you did not do the above option
 While you are here it would be wise to enter an admin user here so you can log into the app.
 Admin is a user with the role of: ["ROLE_ADMIN"].
-If you want you can grab the 
+
+## Starting the project
+To start the project you need to run two commands (symfony server and yarn watcher for webpack)
+
+### Symfony server
+```bash
+symfony serve -d
+```
+This should run the server on localhost:8000 by default, if the port is in use it will tell you
+
+If the port is somewhere else or unknown just find it by running:
+```bash
+symfony console server:list
+```
+
+### Webpack
+Open a new terminal tab or window inside the project and run this command for webpack encore
+```bash
+yarn watch
+```
+
+## Final ( I promise!)
+Now you should be good to go... almost!
+Finally you should open your browser and go to the hashed route 
+```text
+localhost:8000/$2a$12$99iZHSovZPM6xvwAMeFeoONS69pt45Udgplt4DAdT7fDQvX12nBte/login
+```
+
+Thats right, the routes are hashed, what of it 😏
+
+## THATS IT, ENJOY 🥳🥳🥳🥳🥳🥳
+
+
+# DISCLAIMER ⚡⚡⚡
+
+This is a project that I made while learning symfony and this markdown as well, please contact me if you see some problems, bad practices etc.
+I'm still learning and I would appreciate your help in getting my skills to the next level.
+
+
+
+
